@@ -27,6 +27,9 @@ Other dependencies needed to run the `TurbulenceSuite.py` script:
 - `api_key`
   - This is the api key used to pull data from Alpha Vantage. You can get a free api key [here](https://www.alphavantage.co/support/#api-key).
 
+#### DO NOT RUN `TurbulenceSuite.py` ON WEEKDAYS
+While the code can run just fine most weekdays, some weekdays (that coincide with stock market holidays) can cause the `prices` dataframe to record dates incorrectly. Therefore, it is better to run the script on Saturday or Sunday.
+
 ## For Developers
 License: MIT
 \
