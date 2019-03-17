@@ -15,7 +15,7 @@ Author: Terrence Zhang
 ### Dependencies
 Python (3.6.4)
 \
-Modules: [requirements.txt]()
+Modules: [requirements.txt](https://github.com/tzhangwps/Turbulence-Suite/blob/master/requirements.txt)
 \
 Other dependencies needed to run the `TurbulenceSuite.py` script:
 - [`turbulence_suite.py`](https://github.com/tzhangwps/Turbulence-Suite/blob/master/turbulence_suite.py) - this local module contains objects and functions to be used by the main `TurbulenceSuite.py` script.
