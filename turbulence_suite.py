@@ -144,8 +144,7 @@ def update_weekly_prices(prices, api_key):
     api_key = str(api_key)
     new_pull = get_weekly_prices(api_key)
     new_pull = pd.DataFrame(replace_zero_values(new_pull))
-    previous_date = dt.datetime.strptime(prices['Dates'][0],
-                                         '%Y-%m-%d')
+    previous_date = dt.datetime.strptime(prices['Dates'][0], '%Y-%m-%d')
     data_to_add_indices = []
     for index in range(0, len(new_pull)):
         date = dt.datetime.strptime(new_pull.loc[index, 'Dates'], '%Y-%m-%d')
@@ -156,6 +155,8 @@ def update_weekly_prices(prices, api_key):
     
     data_to_add = new_pull.loc[data_to_add_indices,]
     prices = data_to_add.append(prices)
+    prices.reset_index(inplace=True)
+    prices.drop('index', axis=1, inplace=True)
     
     return(prices)
 
@@ -368,8 +369,8 @@ def check_single_ticker(ticker, api_key):
               + '&apikey={}'.format(api_key))
     json_data = json.loads(req.get(url).text)
     print(json_data['Meta Data'])
-    print(json_data['Weekly Adjusted Time Series']['2019-03-08'])
-    print(len(list(json_data['Weekly Adjusted Time Series'].keys())))
+    
+    return(json_data['Weekly Adjusted Time Series'])
 
 #MIT License
 #

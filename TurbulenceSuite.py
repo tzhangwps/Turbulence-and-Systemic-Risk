@@ -45,6 +45,7 @@ systemic_risk_chart_path = os.path.join(os.getcwd(), 'systemic_risk_chart.csv')
 ###############################################################################
 
 prices = pd.read_pickle(prices_path)
+print('\nRequesting data from Alpha Vantage API...')
 prices = ts.update_weekly_prices(prices, api_key=api_key)
 prices.to_pickle(prices_path)
 
