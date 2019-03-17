@@ -3,7 +3,7 @@
 ### Code Walkthrough
 The following text explains what the `TurbulenceSuite.py` code does, step-by-step.
 \
-For instructions on how to run the code, [click here](https://github.com/tzhangwps/Turbulence-Suite/blob/master/README.md)
+For instructions on how to run the code, [click here](https://github.com/tzhangwps/Turbulence-Suite/blob/master/README.md).
 
 ### Adding new data to the `index_data.pkl` file (`ts.update_weekly_prices()`)
 First, `ts.update_weekly_prices()` pulls in the entire adjusted weekly price series for each asset in the asset pool, using `get_weekly_prices()`. However, there is a small nuance to the way Alpha Vantage shows weekly adjusted prices. If the request is made on a weekday that is **not** the last trading day of the week (i.e. a Friday), the first data point corresponds to the current date, instead of last Friday. For example, if I run `get_weekly_prices()` on a Wednesday, the first data point will be today, whereas ideally it would be last Friday. To deal with this issue, `get_weekly_prices()` adopts a heuristic where if the `first_date` is less than 6 days after the end of the last trading week, then we disregard the first data point. This heuristic is imperfect, so `TurbulenceSuite.py`is best run on Saturdays or Sundays.
