@@ -33,4 +33,4 @@ While the code can run just fine most weekdays, some weekdays (that coincide wit
 ## For Developers
 License: MIT
 \
-For a step-by-step explanation of the code, [click here]().
+For a step-by-step explanation of the code, [click here](https://github.com/tzhangwps/Turbulence-Suite/blob/master/DeveloperGuide.md).
