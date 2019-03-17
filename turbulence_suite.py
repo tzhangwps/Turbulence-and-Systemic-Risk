@@ -341,7 +341,7 @@ def calculate_systemic_risk(returns, window_size=250):
     systemic_risk = {'Dates': [], 'Systemic Risk': []}
     chronological_returns = returns.iloc[::-1]
     
-    window_endpoint = copy.deepcopy(window_size)
+    window_endpoint = copy.deepcopy(int(window_size))
     while window_endpoint < len(chronological_returns):
         covariance_matrix = chronological_returns.iloc[window_endpoint + 1 - window_size : window_endpoint + 1].cov()
         eigenvalues = np.sort(np.linalg.eig(covariance_matrix)[0])
