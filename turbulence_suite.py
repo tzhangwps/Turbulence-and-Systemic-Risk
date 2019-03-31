@@ -34,15 +34,13 @@ def convert_date_format(date_input):
     
     return(date_output)
     
-def get_weekly_prices(api_key, count=500):
+def get_weekly_prices(api_key):
     '''
     Purpose: Get weekly adjusted closing prices (from Alpha Vantage)
     for all assets used by the Turbulence indicators. 
     
     Output: A dictionary where each item is a list containing
     (in reverse chronological order) the adjusted closing prices.
-
-    "count": integer, how many weeks of data to read.
     
     "api_key": string, the api key used to access Alpha Vantage
     '''
@@ -53,7 +51,6 @@ def get_weekly_prices(api_key, count=500):
     import sys
     
     api_key = str(api_key)
-    count = int(count)
     tickers = ['^FTSE', '^N225', '^GDAXI', '^FCHI', '^HSI', '^BVSP',
                '^RUT', 'IXY', 'IXR', 'IXE', 'IXM', 'IXV', 'IXT',
                'IXB', 'IXU', '^IRX', '^FVX', '^TNX', '^TYX', 'VWEHX',
@@ -99,9 +96,7 @@ def get_weekly_prices(api_key, count=500):
         first_date = dt.datetime.strptime(dates[0], '%Y-%m-%d')
         second_date = dt.datetime.strptime(dates[1], '%Y-%m-%d')
         if first_date - second_date < dt.timedelta(days=6):
-            dates = dates[1 : count + 1]
-        else:
-            dates = dates[:count]
+            dates = dates[1:]
         
         for date in dates:
             output[name].append(float(weekly_data[date]['5. adjusted close']))
@@ -143,7 +138,8 @@ def update_weekly_prices(prices, api_key):
     
     api_key = str(api_key)
     new_pull = get_weekly_prices(api_key)
-    new_pull = pd.DataFrame(replace_zero_values(new_pull))
+    new_pull = replace_zero_values(new_pull)
+    new_pull = pd.DataFrame(dict([(k,pd.Series(v)) for k,v in new_pull.items()]))
     previous_date = dt.datetime.strptime(prices['Dates'][0], '%Y-%m-%d')
     data_to_add_indices = []
     for index in range(0, len(new_pull)):
