@@ -46,17 +46,17 @@ systemic_risk_chart_path = os.path.join(os.getcwd(), 'systemic_risk_chart.csv')
 
 prices = pd.read_pickle(prices_path)
 print('\nRequesting data from Alpha Vantage API...')
-prices = ts.update_weekly_prices(prices, api_key=api_key)
+prices = ts.MainProcess().update_weekly_prices(prices, api_key=api_key)
 prices.to_pickle(prices_path)
 
-prices = ts.add_curve_slope(prices)
-returns = ts.calculate_returns(prices)
+prices = ts.MainProcess().add_curve_slope(prices)
+returns = ts.MainProcess().calculate_returns(prices)
 
 print('\nBuilding Turbulence Index...')
-turbulence = pd.DataFrame(ts.calculate_turbulence(returns))
+turbulence = pd.DataFrame(ts.MainProcess().calculate_turbulence(returns))
 print('Turbulence Index completed!')
 print('\nBuilding Systemic Risk Index...')
-systemic_risk = pd.DataFrame(ts.calculate_systemic_risk(returns))
+systemic_risk = pd.DataFrame(ts.MainProcess().calculate_systemic_risk(returns))
 print('Systemic Risk Index completed!')
 
 turbulence_chart = pd.DataFrame({
@@ -74,6 +74,7 @@ systemic_risk_chart.to_csv(systemic_risk_chart_path, index=False)
 
 print('\nTurbulence and Systemic Risk data written as .csv files and saved to',
       str(os.getcwd()))
+print('\n{}'.format(turbulence.iloc[-5:,]))
 input('Press [ENTER] to close the program.')
         
 #MIT License
