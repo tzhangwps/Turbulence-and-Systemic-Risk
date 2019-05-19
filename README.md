@@ -23,9 +23,11 @@ Other dependencies needed to run the `TurbulenceSuite.py` script:
 
 ### How to Use the Code
 1. Place the main script `TurbulenceSuite.py`, the local module `turbulence_suite.py`, and the `index_data.pkl` dataframe into the same directory.
-2. Run `TurbulenceSuite.py` via the command line. It takes one positional argument.
-- `api_key`
-  - This is the api key used to pull data from Alpha Vantage. You can get a free api key [here](https://www.alphavantage.co/support/#api-key).
+2. Run `TurbulenceSuite.py` via the command line. It takes two optional arguments. NOTE: only run one of these optional arguments at a time.
+- `-a (--api_key)`
+  - Invoke this argument if you want to update the Turbulence and Systemic Risk indices. This is the api key used to pull data from Alpha Vantage. You can get a free api key [here](https://www.alphavantage.co/support/#api-key).
+- `-d (--drop_recent)`
+  - Invoke this argument when you want to remove rows from the `index_data.pkl` dataframe, in reverse-chronological order. This is the number of rows to remove from the `index_data.pkl` dataframe. 
 
 #### DO NOT RUN `TurbulenceSuite.py` ON WEEKDAYS
 While the code can run just fine most weekdays, some weekdays (that coincide with stock market holidays) can cause the `prices` dataframe to record dates incorrectly. Therefore, it is better to run the script on Saturday or Sunday.
