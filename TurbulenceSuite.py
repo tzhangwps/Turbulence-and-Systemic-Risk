@@ -36,8 +36,8 @@ parser.add_argument('-a', '--api_key', type=str,
 parser.add_argument('-d', '--drop_recent', type=int,
                     help=
                     """
-                    How many rows do you want to remove from the "prices"
-                    dataframe (reverse-chronological)?
+                    How many rows (reverse-chronological) do you want to
+                    remove from the "index_data.pkl" dataframe?
                     """)
 args = parser.parse_args()
 api_key = args.api_key
