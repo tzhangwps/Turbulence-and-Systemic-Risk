@@ -1,4 +1,4 @@
-# Turbulence Suite (0.1.0)
+# Turbulence and Systemic Risk (0.1.0)
 ## For Developers
 ### Code Walkthrough
 The following text explains what the `TurbulenceSuite.py` code does, step-by-step.
