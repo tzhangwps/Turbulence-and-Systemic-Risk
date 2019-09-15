@@ -68,6 +68,6 @@ class MainProcess:
         systemic_risk_chart.to_csv(path.systemic_risk_chart_path, index=False)
         
         print('\nTurbulence and Systemic Risk data written as .csv files and saved to',
-              str(os.getcwd()))
+              str(os.getcwd() + r'\data'))
         print('\n{}'.format(self.turbulence.iloc[-5:,]))
         input('Press [ENTER] to close the program.')
