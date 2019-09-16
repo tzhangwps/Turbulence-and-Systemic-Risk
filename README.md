@@ -1,6 +1,6 @@
 # Turbulence and Systemic Risk (0.1.0)
 ## Intro
-- [What does this code do?](https://medium.com/@tzhangwps/measuring-financial-turbulence-and-systemic-risk-9d9688f6eec1)
+- [What does this code do?](https://medium.com/@tzhangwps/measuring-financial-turbulence-and-systemic-risk-9d9688f6eec1?source=friends_link&sk=15d25da80de749edd1694fc70d0703bb)
 - [Charts](https://terrencez.com/financial-turbulence-and-systemic-risk-charts/) for Financial Turbulence and Systemic Risk
 - [Link to code](https://github.com/tzhangwps/Turbulence-and-Systemic-Risk/blob/master/TurbulenceSuite_master.py)
 
