@@ -21,7 +21,7 @@ Since we pull in treasury yield data from Yahoo Finance, we need to calculate th
 This calculates returns (first differences) for each asset across time, using the `first_difference()` function. For most assets, the first difference is `(new price / old price) - 1`, but for yield and yield curve slope fields, the first difference is `new price - old price`. 
 
 ### Calculating Financial Turbulence `calc.Calculate().calculate_turbulence()` and Systemic Risk `calc.Calculate().calculate_systemic_risk()`
-For background on the calculations, [click here](https://medium.com/@tzhangwps/measuring-financial-turbulence-and-systemic-risk-9d9688f6eec1).
+For background on the calculations, [click here](https://medium.com/@tzhangwps/measuring-financial-turbulence-and-systemic-risk-9d9688f6eec1?source=friends_link&sk=15d25da80de749edd1694fc70d0703bb).
 
 ### Mopping Up
 Output for the Financial Turbulence and Systemic Risk Indicators are converted to dataframes and saved as `.csv` files in the `reports` sub-folder. The first row of each `.csv` file contains strings describing each data field type.
