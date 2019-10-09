@@ -87,7 +87,7 @@ class GetPrices:
                                            '%Y-%m-%d')                      
                                                
         if first_date - second_date < dt.timedelta(days=6):
-            series_dataframe = series_dataframe[1:]
+            series_dataframe = series_dataframe[2:]
             series_dataframe.reset_index(inplace=True)
             series_dataframe.drop('index', axis=1, inplace=True)
             
