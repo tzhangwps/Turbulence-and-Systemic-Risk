@@ -2,7 +2,6 @@
 Drops rows from the index_data.pkl dataframe.
 """
 import pandas as pd
-import os
 
 import TurbulenceSuite_paths as path
 
@@ -17,14 +16,14 @@ class DropRecent:
         """
         Drop rows from the index_data.pkl dataframe.
         """
-        prices = pd.read_pickle(path.prices_path)
+        prices = pd.read_pickle(path.prices_path_current)
         prices = prices.iloc[rows_to_drop:,]
         prices.reset_index(inplace=True)
         prices = prices.drop('index', axis=1)
-        prices.to_pickle(path.prices_path)
+        prices.to_pickle(path.prices_path_current)
         
         print('\nRemoved {} rows from "prices" dataframe'.format(rows_to_drop),
-              'and saved to {}'.format(os.getcwd()))
+              'and saved to {}'.format(path.prices_path_current))
 
 
 #MIT License
