@@ -5,7 +5,8 @@ import os
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-prices_path = str(os.getcwd() + '\\data\\index_data.pkl')
+prices_path_historical = str(os.getcwd() + '\\data\\index_data 09.09.2019 VALID.pkl')
+prices_path_current = str(os.getcwd() + '\\data\\index_data.pkl')
 turbulence_chart_path = str(os.getcwd() + '\\reports\\turbulence_chart.csv')
 systemic_risk_chart_path = str(os.getcwd() + '\\reports\\systemic_risk_chart.csv')
 
