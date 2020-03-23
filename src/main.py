@@ -28,9 +28,9 @@ class MainProcess:
         Appends new data to the prices dataset and the returns dataset.
         """
         print('\nRequesting data from Yahoo Finance...')
-        self.prices = pd.read_pickle(path.prices_path)
+        self.prices = pd.read_pickle(path.prices_path_historical)
         self.prices = get.GetPrices().update_weekly_prices(self.prices)
-        self.prices.to_pickle(path.prices_path)
+        self.prices.to_pickle(path.prices_path_current)
         self.prices = get.CalculateReturns().add_curve_slope(self.prices)
         self.returns = get.CalculateReturns().calculate_returns(self.prices)
         

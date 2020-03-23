@@ -66,8 +66,9 @@ class GetPrices:
     
     
     def __init__(self):
-        self.dates = []
+        self.yahoo_dates = []
         self.values = []
+        self.now = dt.datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
     
 
     def yahoo_response(self, series_id):
@@ -85,13 +86,16 @@ class GetPrices:
                                           '%Y-%m-%d')
         second_date = dt.datetime.strptime(str(series_dataframe['Date'][1])[:10],
                                            '%Y-%m-%d')                      
-                                               
-        if first_date - second_date < dt.timedelta(days=6):
-            series_dataframe = series_dataframe[2:]
+        
+        friday_check = first_date - second_date < dt.timedelta(days=6)
+        monday_check = first_date >= self.now
+        
+        if (friday_check or monday_check):
+            series_dataframe = series_dataframe[1:]
             series_dataframe.reset_index(inplace=True)
             series_dataframe.drop('index', axis=1, inplace=True)
             
-        self.dates.extend([str(series_dataframe['Date'][index])[:10]
+        self.yahoo_dates.extend([str(series_dataframe['Date'][index])[:10]
             for index in range(0, len(series_dataframe))])
         self.values.extend([float(series_dataframe['Adj Close'][index])
             for index in range(0, len(series_dataframe))])
@@ -122,19 +126,20 @@ class GetPrices:
                   '10Y_UST': [], '30Y_UST': [], 'HY_Corp': [],
                   'ShortTerm_IG_Corp': [], 'LongTerm_IG_Corp': []}
         
+        
         for iteration in range(0, len(tickers)):
             ticker = tickers[iteration]
-            self.dates = []
+            self.yahoo_dates = []
             self.values = []
             name = list(output.keys())[iteration + 1]
             print('Currently pulling data for {} ({})'.format(ticker, name))
-            
             success = False
             while success == False:
                 try:
                     self.yahoo_response(series_id=ticker)
-                except (req.HTTPError, req.exceptions.ReadTimeout):
-                    delay = 5
+                except (req.exceptions.HTTPError, req.exceptions.ReadTimeout,
+                        req.exceptions.ConnectionError):
+                    delay = 30
                     print('\t --CONNECTION ERROR--',
                           '\n\t Sleeping for {} seconds.'.format(delay))
                     time.sleep(delay)
@@ -143,8 +148,8 @@ class GetPrices:
                     
             output[name].extend(self.values)
             
-            if iteration == 1:
-                output['Dates'].extend(self.dates)
+            if ticker == '^RUT':
+                output['Dates'].extend(self.yahoo_dates)
             
             time.sleep(1)
         
@@ -187,11 +192,26 @@ class GetPrices:
             date = dt.datetime.strptime(new_pull.loc[index, 'Dates'], '%Y-%m-%d')
             if date > previous_date:
                 data_to_add_indices.append(index)
-            elif date <= previous_date:
+            else:
                 break
-        
+            
         data_to_add = new_pull.loc[data_to_add_indices,]
-        prices = data_to_add.append(prices)
+        
+        all_dates = list(prices['Dates'][::-1])
+        previous_date = dt.datetime.strptime(all_dates[len(all_dates) - 1], '%Y-%m-%d')
+        date_is_current = False
+        while date_is_current == False:
+            next_date = previous_date + dt.timedelta(days=7)
+            if next_date < self.now:
+                next_date_string = str(next_date)[:10]
+                all_dates.append(next_date_string)
+                previous_date = previous_date + dt.timedelta(days=7)
+            else:
+                date_is_current = True
+        all_dates = all_dates[::-1]
+        
+        prices = data_to_add.append(prices, sort=True)
+        prices['Dates'] = all_dates
         prices.reset_index(inplace=True)
         prices.drop('index', axis=1, inplace=True)
         
