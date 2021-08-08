@@ -94,8 +94,9 @@ class Calculate:
             mahalanobis_distance = distance.mahalanobis(u=current_data.iloc[:, 1:],
                                                         v=historical_sample_means,
                                                         VI=inverse_covariance_matrix)
+            turbulence = mahalanobis_distance**2
             
-            self.turbulence['Raw Turbulence'].append(mahalanobis_distance)
+            self.turbulence['Raw Turbulence'].append(turbulence)
             self.turbulence['Dates'].append(current_date)
             self.append_recession_series(current_date=current_date,
                                          dataframe=self.turbulence)
