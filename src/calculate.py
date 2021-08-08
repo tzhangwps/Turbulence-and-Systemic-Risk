@@ -2,7 +2,6 @@
 This module calculates the Turbulence and Systemic Risk indicators.
 """
 
-
 class Calculate:
     """
     Calculates the Turbulence and Systemic Risk indicators.
@@ -10,8 +9,8 @@ class Calculate:
     
     
     def __init__(self):
-        self.recession_start_dates = ['2001-03-01', '2007-12-01']
-        self.recession_end_dates = ['2001-11-01', '2009-06-01']
+        self.recession_start_dates = ['2001-04-01', '2008-01-01', '2020-03-01']
+        self.recession_end_dates = ['2001-11-01', '2009-06-01', '2020-04-01']
         self.turbulence = {}
         self.systemic_risk = {}
     
