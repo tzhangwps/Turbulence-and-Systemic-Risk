@@ -121,17 +121,12 @@ class GetPrices:
         
         
         tickers = ['^FTSE', '^N225', '^GDAXI', '^FCHI', '^HSI', '^BVSP',
-                   '^RUT', 'IXY', 'IXR', 'IXE', 'IXM', 'IXV', 'IXT',
-                   'IXB', 'IXU', '^IRX', '^FVX', '^TNX', '^TYX', 'VWEHX',
+                   '^RUT', '^IRX', '^FVX', '^TNX', '^TYX', 'VWEHX',
                    'VFSTX', 'VWESX']
         
         output = {'Dates': [], 'FTSE100': [], 'Nikkei225': [], 'DAX': [], 
                   'CAC40': [], 'HangSeng': [], 'Bovespa': [],
-                  'Russell2000': [],
-                  'ConsumerDisc': [], 'ConsumerStaples': [],
-                  'Energy': [], 'Financials': [], 'Healthcare': [],
-                  'Tech': [], 'Materials': [],
-                  'Utilities': [], '13W_UST': [], '5Y_UST': [],
+                  'Russell2000': [], '13W_UST': [], '5Y_UST': [],
                   '10Y_UST': [], '30Y_UST': [], 'HY_Corp': [],
                   'ShortTerm_IG_Corp': [], 'LongTerm_IG_Corp': []}
         
@@ -274,11 +269,7 @@ class CalculateReturns:
         output = {'Dates': prices['Dates'][:len(prices) - 1],
                   'FTSE100': [], 'Nikkei225': [], 'DAX': [], 
                   'CAC40': [], 'HangSeng': [], 'Bovespa': [],
-                  'Russell2000': [],
-                  'ConsumerDisc': [], 'ConsumerStaples': [],
-                  'Energy': [], 'Financials': [], 'Healthcare': [],
-                  'Tech': [], 'Materials': [],
-                  'Utilities': [], '10Y_UST': [], '30Y_UST': [],
+                  'Russell2000': [], '10Y_UST': [], '30Y_UST': [],
                   'CurveSlope_10Y-5Y': [], 'CurveSlope_10Y-13W': [], 
                   'HY_Corp': [],
                   'ShortTerm_IG_Corp': [], 'LongTerm_IG_Corp': []}
