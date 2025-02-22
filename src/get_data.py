@@ -19,7 +19,7 @@ class YahooData:
     timeout = 2
     crumb_link = 'https://finance.yahoo.com/quote/{0}/history?p={0}'
     crumble_regex = r'crumb:(.?),'
-    quote_link = 'https://query1.finance.yahoo.com/v7/finance/download/{quote}?period1={dfrom}&period2={dto}&interval=1wk&events=history&crumb={crumb}'
+    quote_link = 'https://query2.finance.yahoo.com/v8/finance/chart/{quote}?period1={dfrom}&period2={dto}&interval=1wk&events=history&crumb={crumb}'
 
 
     def __init__(self, symbol, days_back=7):
@@ -65,7 +65,7 @@ class YahooData:
         url = self.quote_link.format(quote=self.symbol, dfrom=datefrom, dto=dateto, crumb=self.crumb)
         response = self.session.get(url, headers=self.headers)
         response.raise_for_status()
-        return pd.read_csv(StringIO(response.text), parse_dates=['Date'])
+        return pd.read_json(StringIO(response.text))
 
 
 class GetPrices:
@@ -87,27 +87,32 @@ class GetPrices:
         series_id: ticker symbol for the asset to be pulled.
         """
         series_id = str(series_id)
-        series_dataframe = YahooData(series_id).get_quote()[::-1]
-        series_dataframe.reset_index(inplace=True)
-        series_dataframe.drop('index', axis=1, inplace=True)
+        series_dataframe = YahooData(series_id).get_quote()
+        
+        timestamplist       = series_dataframe["chart"]["result"][0]["timestamp"]
+        firstlast_date = []
+        firstlast_adjclose = []
+        for dte in range(0, len(timestamplist)):
+            if timestamplist[dte] > 0:
+                firstlast_date.extend([dt.datetime.fromtimestamp(timestamplist[dte]).strftime('%Y-%m-%d')])
+                firstlast_adjclose.extend([series_dataframe["chart"]["result"][0]["indicators"]["adjclose"][0]["adjclose"][dte]])
+            
+        
+        lastfirst_date      = firstlast_date[::-1]
+        lastfirst_adjclose  = firstlast_adjclose[::-1]
                                                
-        first_date = dt.datetime.strptime(str(series_dataframe['Date'][0])[:10],
-                                          '%Y-%m-%d')
-        second_date = dt.datetime.strptime(str(series_dataframe['Date'][1])[:10],
-                                           '%Y-%m-%d')                      
+        first_date = dt.datetime.strptime(lastfirst_date[0],'%Y-%m-%d')
+        second_date = dt.datetime.strptime(lastfirst_date[1],'%Y-%m-%d')                   
         
         friday_check = first_date - second_date < dt.timedelta(days=6)
         monday_check = first_date >= self.now
         
         if (friday_check or monday_check):
-            series_dataframe = series_dataframe[1:]
-            series_dataframe.reset_index(inplace=True)
-            series_dataframe.drop('index', axis=1, inplace=True)
+            lastfirst_date.pop(0)
+            lastfirst_adjclose.pop(0)
             
-        self.yahoo_dates.extend([str(series_dataframe['Date'][index])[:10]
-            for index in range(0, len(series_dataframe))])
-        self.values.extend([float(series_dataframe['Adj Close'][index])
-            for index in range(0, len(series_dataframe))])
+        self.yahoo_dates.extend(lastfirst_date)
+        self.values.extend(lastfirst_adjclose)
     
     
     def get_weekly_prices(self):
@@ -142,7 +147,7 @@ class GetPrices:
                 try:
                     self.yahoo_response(series_id=ticker)
                 except (req.exceptions.HTTPError, req.exceptions.ReadTimeout,
-                        req.exceptions.ConnectionError):
+                        req.exceptions.ConnectionError, ValueError):
                     delay = 30
                     print('\t --CONNECTION ERROR--',
                           '\n\t Sleeping for {} seconds.'.format(delay))
@@ -214,7 +219,8 @@ class GetPrices:
                 date_is_current = True
         all_dates = all_dates[::-1]
         
-        prices = data_to_add.append(prices, sort=True)
+        prices = pd.concat([data_to_add, prices], sort=True)
+        #prices = data_to_add.append(prices, sort=True)
         prices['Dates'] = all_dates
         prices.reset_index(inplace=True)
         prices.drop('index', axis=1, inplace=True)
