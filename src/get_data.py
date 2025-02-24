@@ -126,14 +126,12 @@ class GetPrices:
         
         
         tickers = ['^FTSE', '^N225', '^GDAXI', '^FCHI', '^HSI', '^BVSP',
-                   '^RUT', '^IRX', '^FVX', '^TNX', '^TYX', 'VWEHX',
-                   'VFSTX', 'VWESX']
+                   '^RUT', '^IRX', '^FVX', '^TNX', '^TYX']
         
         output = {'Dates': [], 'FTSE100': [], 'Nikkei225': [], 'DAX': [], 
                   'CAC40': [], 'HangSeng': [], 'Bovespa': [],
                   'Russell2000': [], '13W_UST': [], '5Y_UST': [],
-                  '10Y_UST': [], '30Y_UST': [], 'HY_Corp': [],
-                  'ShortTerm_IG_Corp': [], 'LongTerm_IG_Corp': []}
+                  '10Y_UST': [], '30Y_UST': []}
         
         
         for iteration in range(0, len(tickers)):
@@ -276,9 +274,7 @@ class CalculateReturns:
                   'FTSE100': [], 'Nikkei225': [], 'DAX': [], 
                   'CAC40': [], 'HangSeng': [], 'Bovespa': [],
                   'Russell2000': [], '10Y_UST': [], '30Y_UST': [],
-                  'CurveSlope_10Y-5Y': [], 'CurveSlope_10Y-13W': [], 
-                  'HY_Corp': [],
-                  'ShortTerm_IG_Corp': [], 'LongTerm_IG_Corp': []}
+                  'CurveSlope_10Y-5Y': [], 'CurveSlope_10Y-13W': []}
         
         yield_assets = ['10Y_UST', '30Y_UST', 'CurveSlope_10Y-5Y',
                         'CurveSlope_10Y-13W']
